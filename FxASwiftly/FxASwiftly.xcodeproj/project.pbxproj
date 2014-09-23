@@ -13,8 +13,8 @@
 		28F9530919D1055B00DCE892 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28F9530819D1055B00DCE892 /* Images.xcassets */; };
 		28F9530C19D1055B00DCE892 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F9530A19D1055B00DCE892 /* LaunchScreen.xib */; };
 		28F9531819D1055B00DCE892 /* FxASwiftlyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F9531719D1055B00DCE892 /* FxASwiftlyTests.swift */; };
-		28F9532219D1057200DCE892 /* FxA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F9532119D1057200DCE892 /* FxA.framework */; };
-		28F9532319D1057200DCE892 /* FxA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28F9532119D1057200DCE892 /* FxA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28F9532819D1085500DCE892 /* FxA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F9532119D1057200DCE892 /* FxA.framework */; };
+		28F9532919D1085500DCE892 /* FxA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28F9532119D1057200DCE892 /* FxA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,13 +28,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		28F9532419D1057200DCE892 /* Embed Frameworks */ = {
+		28F9532A19D1085500DCE892 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				28F9532319D1057200DCE892 /* FxA.framework in Embed Frameworks */,
+				28F9532919D1085500DCE892 /* FxA.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,7 +52,7 @@
 		28F9531119D1055B00DCE892 /* FxASwiftlyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FxASwiftlyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F9531619D1055B00DCE892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F9531719D1055B00DCE892 /* FxASwiftlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FxASwiftlyTests.swift; sourceTree = "<group>"; };
-		28F9532119D1057200DCE892 /* FxA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = FxA.framework; path = "/Users/rnewman/Library/Developer/Xcode/DerivedData/FxA-gtymixzaqbcnzpdqrqbyddaqkulv/Build/Products/Debug-iphoneos/FxA.framework"; sourceTree = "<absolute>"; };
+		28F9532119D1057200DCE892 /* FxA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FxA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28F9532219D1057200DCE892 /* FxA.framework in Frameworks */,
+				28F9532819D1085500DCE892 /* FxA.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +141,7 @@
 				28F952F819D1055B00DCE892 /* Sources */,
 				28F952F919D1055B00DCE892 /* Frameworks */,
 				28F952FA19D1055B00DCE892 /* Resources */,
-				28F9532419D1057200DCE892 /* Embed Frameworks */,
+				28F9532A19D1085500DCE892 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
