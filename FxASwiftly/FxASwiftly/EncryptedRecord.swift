@@ -5,9 +5,33 @@
 import Foundation
 
 public class KeyBundle {
+    let encKey: NSData;
+    let hmacKey: NSData;
+
+    public init(encKey: NSData, hmacKey: NSData) {
+        self.encKey = encKey
+        self.hmacKey = hmacKey
+    }
+
+    public func hmac(ciphertext: NSData) -> String {
+        let hmacAlgorithm = CCHmacAlgorithm(kCCHmacAlgSHA256)
+        let digestLen: Int = Int(CC_SHA256_DIGEST_LENGTH)
+        let result = UnsafeMutablePointer<CUnsignedChar>.alloc(digestLen)
+        CCHmac(hmacAlgorithm, hmacKey.bytes, UInt(hmacKey.length), ciphertext.bytes, UInt(ciphertext.length), result)
+        var hash = NSMutableString()
+        for i in 0..<digestLen {
+            hash.appendFormat("%02x", result[i])
+        }
+
+        result.destroy()
+
+        return String(hash)
+    }
+
     // You *must* verify HMAC before calling this.
     public func decrypt(ciphertext: NSData, iv: NSData) -> String? {
         return "{\"decrypted\": true}"
+
     }
 
     public func verify(hmac: NSData, iv: NSData) -> Bool {
@@ -22,7 +46,7 @@ public class Keys {
 
     // TODO
     public func forCollection(collection: String) -> KeyBundle {
-        return KeyBundle()
+        return KeyBundle(encKey: NSData(), hmacKey: NSData())
     }
 
     public func factory<T : CleartextPayloadJSON>(collection: String) -> (String) -> T? {
