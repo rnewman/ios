@@ -16,13 +16,13 @@ public class EnvelopeJSON : JSON {
     }
 
     public func isValid() -> Bool {
-        return self["id"].isString &&
+        return !isError &&
+               self["id"].isString &&
                self["collection"].isString &&
                self["payload"].isString
     }
 
     public var id: String {
-        println(self["id"])
         return self["id"].asString!
     }
     

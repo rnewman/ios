@@ -6,8 +6,12 @@ import Foundation
 
 
 @objc public class ClientPayload : PayloadJSON {
-    public func isValid() -> Bool {
-        return self["name"].isString &&
+    override public func isValid() -> Bool {
+        // We should also call super.isValid(), but that'll fail:
+        // Global is external, but doesn't have external or weak linkage!
+        // Swift compiler bug #18422804.
+        return !isError &&
+               self["name"].isString &&
                self["commands"].isArray &&
                self["type"].isString
     }
