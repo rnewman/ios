@@ -31,4 +31,19 @@ class FxASwiftlyTests: XCTestCase {
         println("Got GUID: \(s)")
         XCTAssertEqual(12, s.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
     }
+
+    func testEnvelopeJSON() {
+        let e = EnvelopeJSON(JSON.parse("{}"))
+        XCTAssertFalse(e.isValid())
+        
+        let ee = EnvelopeJSON("{\"id\": \"foo\"}")
+        XCTAssertFalse(ee.isValid())
+        XCTAssertEqual(ee.id, "foo")
+        
+        let eee = EnvelopeJSON(JSON.parse("{\"id\": \"foo\", \"collection\": \"bar\", \"payload\": \"baz\"}"))
+        XCTAssertTrue(eee.isValid())
+        XCTAssertEqual(eee.id, "foo")
+        XCTAssertEqual(eee.collection, "bar")
+        XCTAssertEqual(eee.payload, "baz")
+    }
 }
