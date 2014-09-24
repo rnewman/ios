@@ -46,4 +46,23 @@ class FxASwiftlyTests: XCTestCase {
         XCTAssertEqual(eee.collection, "bar")
         XCTAssertEqual(eee.payload, "baz")
     }
+
+    func testRecord() {
+        let invalidPayload = "{\"id\": \"abcdefghijkl\", \"collection\": \"clients\", \"payload\": \"invalid\"}"
+        let emptyPayload = "{\"id\": \"abcdefghijkl\", \"collection\": \"clients\", \"payload\": \"{}\"}"
+
+        let clientBody: [String: AnyObject] = ["name": "Foobar", "commands": [], "type": "mobile"]
+        let clientBodyString = JSON(clientBody).toString(pretty: false)
+        let clientRecord: [String : AnyObject] = ["id": "abcdefghijkl", "collection": "clients", "payload": clientBodyString]
+        let clientPayload = JSON(clientRecord).toString(pretty: false)
+
+        println(clientPayload)
+        // Only payloads that parse as JSON are valid.
+        XCTAssertNil(Record<PayloadJSON>.fromEnvelope(EnvelopeJSON(invalidPayload)))
+        XCTAssertNotNil(Record<PayloadJSON>.fromEnvelope(EnvelopeJSON(emptyPayload)))
+
+        // Only valid ClientPayloads are valid.
+        XCTAssertNil(Record<ClientPayload>.fromEnvelope(EnvelopeJSON(invalidPayload)))
+        XCTAssertNotNil(Record<ClientPayload>.fromEnvelope(EnvelopeJSON(clientPayload)))
+    }
 }
