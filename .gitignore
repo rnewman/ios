@@ -1,6 +1,6 @@
 .DS_Store
 *~
-*.sw*
+.*.sw*
 FxA/FxA.xcodeproj/project.xcworkspace/xcuserdata/
 FxA/FxA.xcodeproj/xcuserdata/
 FxASwiftly/FxASwiftly.xcodeproj/xcuserdata/
