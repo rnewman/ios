@@ -10,6 +10,8 @@
 	<string>FxA</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>6A4B31B57E14E5921DD94BCBC053E4A99028AD01</key>
+		<string>https://github.com/dankogai/swift-json.git</string>
 		<key>B830A549095F120F74F7813D6A38D6CAF1D972F6</key>
 		<string>github.com:rnewman/ios.git</string>
 	</dict>
@@ -17,6 +19,8 @@
 	<string>FxA/FxA.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>6A4B31B57E14E5921DD94BCBC053E4A99028AD01</key>
+		<string>../../../deps/swift-json/</string>
 		<key>B830A549095F120F74F7813D6A38D6CAF1D972F6</key>
 		<string>../../..</string>
 	</dict>
@@ -35,6 +39,14 @@
 			<string>B830A549095F120F74F7813D6A38D6CAF1D972F6</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ios</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6A4B31B57E14E5921DD94BCBC053E4A99028AD01</string>
+			<key>IDESourceControlWCCName</key>
+			<string>swift-json</string>
 		</dict>
 	</array>
 </dict>

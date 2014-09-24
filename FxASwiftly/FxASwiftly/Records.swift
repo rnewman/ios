@@ -7,45 +7,52 @@ import Foundation
 let ONE_YEAR_IN_SECONDS = 365 * 24 * 60 * 60;
 
 /**
-* Immutable representation for Sync records.
-*/
+ * Immutable representation for Sync records.
+ *
+ * Envelopes consist of:
+ *   Required: "id", "collection", "payload".
+ *   Optional: "modified", "sortindex", "ttl".
+ *
+ * Deletedness is a property of the payload.
+ */
 @objc public class Record {
+    let id: String
     let collection: String
-    let deleted: Bool
-    let guid: String
-    let lastModified: Int
-    let sortIndex: Int
+    let payload: JSON
+
+    let modified: Int
+    let sortindex: Int
     let ttl: Int              // Seconds.
-    
-    let localOnly: Bool
-    
-    init(guid: String, coll: String, deleted: Bool = false, lastModified: Int = time(nil), localOnly: Bool = false, ttl: Int = ONE_YEAR_IN_SECONDS, sortIndex: Int = 0) {
-        self.guid = guid
-        self.collection = coll
-        self.deleted = deleted
-        self.lastModified = lastModified
-        self.localOnly = localOnly
+
+    init(id: String, collection: String, payload: JSON, modified: Int = time(nil), sortindex: Int = 0, ttl: Int = ONE_YEAR_IN_SECONDS) {
+        self.id = id
+        self.collection = collection
+
+        self.payload = payload;
+
+        self.modified = modified
+        self.sortindex = sortindex
         self.ttl = ttl
-        self.sortIndex = sortIndex
     }
     
     func equalIdentifiers(rec: Record) -> Bool {
         return rec.collection == self.collection &&
-               rec.guid == self.guid
+               rec.id == self.id
     }
     
     // Override me.
     func equalPayloads(rec: Record) -> Bool {
-        return equalIdentifiers(rec) && rec.deleted == self.deleted
+        //return equalIdentifiers(rec) && rec.deleted == self.deleted
+        return equalIdentifiers(rec)
     }
     
     func equals(rec: Record) -> Bool {
-        return rec.sortIndex == self.sortIndex &&
-               rec.lastModified == self.lastModified &&
+        return rec.sortindex == self.sortindex &&
+               rec.modified == self.modified &&
                equalPayloads(rec)
     }
 
-    class public func generateGUID() -> String {
+    public class func generateGUID() -> String {
         let data = NSMutableData(length: 9)
         let bytes = UnsafeMutablePointer<UInt8>(data.mutableBytes)
         let result: Int32 = SecRandomCopyBytes(kSecRandomDefault, 9, bytes)
@@ -53,48 +60,5 @@ let ONE_YEAR_IN_SECONDS = 365 * 24 * 60 * 60;
         assert(result == 0, "Random byte generation failed.");
 
         return data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
-    }
-}
-
-@objc public class ClientRecord : Record {
-    var commands: [String]     // TODO
-    
-    let name: String
-    let type: String
-    
-    convenience init(name: String, type: String, guid: String, lastModified: Int) {
-        self.init(name: name, type: type, guid: guid, deleted: false, lastModified: lastModified, localOnly: false)
-    }
-    
-    init(name: String, type: String, guid: String, deleted: Bool, lastModified: Int, localOnly: Bool = false) {
-        self.name = name
-        self.commands = []
-        self.type = type
-        super.init(guid: guid, coll: "clients", deleted: false, lastModified: lastModified, localOnly: localOnly)
-    }
-
-    
-    override func equalPayloads(rec: Record) -> Bool {
-        if !(rec is ClientRecord) {
-            return false
-        }
-
-        let r: ClientRecord = rec as ClientRecord
-        if r.name != self.name {
-            return false
-        }
-
-        if r.type != self.type {
-            return false;
-        }
-        
-        return super.equalPayloads(rec)
-    }
-
-    override func equals(rec: Record) -> Bool {
-        if !(rec is ClientRecord) {
-            return false
-        }
-        return super.equals(rec)
     }
 }
