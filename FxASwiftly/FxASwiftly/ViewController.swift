@@ -8,15 +8,11 @@
 
 import UIKit
 
-import FxA
-
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
-        var foo: Foo = Foo()
     }
 
     override func didReceiveMemoryWarning() {
