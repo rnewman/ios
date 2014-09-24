@@ -1,16 +1,9 @@
-//
-//  FxASwiftlyTests.swift
-//  FxASwiftlyTests
-//
-//  Created by Richard Newman on 2014-09-22.
-//  Copyright (c) 2014 Mozilla. All rights reserved.
-//
-
 import UIKit
 import XCTest
+import FxASwiftly
 
 class FxASwiftlyTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -32,5 +25,10 @@ class FxASwiftlyTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    
+
+    func testGUIDs() {
+        let s = Record.generateGUID()
+        println("Got GUID: \(s)")
+        XCTAssertEqual(12, s.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+    }
 }
