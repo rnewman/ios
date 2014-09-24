@@ -99,22 +99,22 @@ public class CleartextPayloadJSON : JSON {
     }
 
     // TODO: consider using error tuples.
-    public class func fromEnvelope(envelope: EnvelopeJSON) -> Record<T>? {
+    public class func fromEnvelope(envelope: EnvelopeJSON, payloadFactory: (String) -> T?) -> Record<T>? {
         if !(envelope.isValid()) {
             println("Invalid envelope.")
             return nil
         }
 
-        let payload = payloadFromPayloadString(envelope, payload: envelope.payload)
+        let payload = payloadFactory(envelope.payload)
         if (payload == nil) {
             println("Unable to parse payload.")
             return nil
         }
-
+        
         if payload!.isValid() {
             return Record<T>(envelope: envelope, payload: payload!)
         }
-
+        
         println("Invalid payload \(payload!.toString(pretty: true)).")
         return nil
     }

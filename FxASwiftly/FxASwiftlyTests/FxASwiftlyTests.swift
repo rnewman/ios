@@ -56,13 +56,26 @@ class FxASwiftlyTests: XCTestCase {
         let clientRecord: [String : AnyObject] = ["id": "abcdefghijkl", "collection": "clients", "payload": clientBodyString]
         let clientPayload = JSON(clientRecord).toString(pretty: false)
 
+        let cleartextClientsFactory: (String) -> ClientPayload? = {
+            (s: String) -> ClientPayload? in
+            return ClientPayload(s)
+        }
+        
+        let ciphertextClientsFactory: (String) -> ClientPayload? = Keys().factory("clients")
+
+        let clearFactory: (String) -> CleartextPayloadJSON? = {
+            (s: String) -> CleartextPayloadJSON? in
+            return CleartextPayloadJSON(s)
+        }
+
         println(clientPayload)
+
         // Only payloads that parse as JSON are valid.
-        XCTAssertNil(Record<CleartextPayloadJSON>.fromEnvelope(EnvelopeJSON(invalidPayload)))
-        XCTAssertNotNil(Record<CleartextPayloadJSON>.fromEnvelope(EnvelopeJSON(emptyPayload)))
+        XCTAssertNil(Record<CleartextPayloadJSON>.fromEnvelope(EnvelopeJSON(invalidPayload), payloadFactory: clearFactory))
+        XCTAssertNotNil(Record<CleartextPayloadJSON>.fromEnvelope(EnvelopeJSON(emptyPayload), payloadFactory: clearFactory))
 
         // Only valid ClientPayloads are valid.
-        XCTAssertNil(Record<ClientPayload>.fromEnvelope(EnvelopeJSON(invalidPayload)))
-        XCTAssertNotNil(Record<ClientPayload>.fromEnvelope(EnvelopeJSON(clientPayload)))
+        XCTAssertNil(Record<ClientPayload>.fromEnvelope(EnvelopeJSON(invalidPayload), payloadFactory: cleartextClientsFactory))
+        XCTAssertNotNil(Record<ClientPayload>.fromEnvelope(EnvelopeJSON(clientPayload), payloadFactory: cleartextClientsFactory))
     }
 }
