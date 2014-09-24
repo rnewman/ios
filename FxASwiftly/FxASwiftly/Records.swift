@@ -36,6 +36,19 @@ public class EnvelopeJSON : JSON {
 }
 
 public class PayloadJSON : JSON {
+    public init(_ jsonString: String) {
+        super.init(JSON.parse(jsonString))
+    }
+
+    override public init(_ json: JSON) {
+        super.init(json)
+    }
+
+    // Override me.
+    public func isValid() -> Bool {
+        return !isError
+    }
+
     public var deleted: Bool {
         let d = self["deleted"]
         if d.isBool {
@@ -61,8 +74,6 @@ public class PayloadJSON : JSON {
  * Deletedness is a property of the payload.
  */
 @objc public class Record<T : PayloadJSON> {
-    var error: Bool = false   // Because Swift sucks.
-
     let id: String
     let collection: String
     let payload: T
@@ -71,18 +82,37 @@ public class PayloadJSON : JSON {
     let sortindex: Int
     let ttl: Int              // Seconds.
 
-    /**
-     * Accepts an envelope containing a decrypted payload.
-     */
-    convenience init(envelope: EnvelopeJSON) {
-        if (envelope.isValid()) {
-            let payload = T(envelope.payload)
-            // TODO: modified, sortindex, ttl
-            self.init(id: envelope.id, collection: envelope.collection, payload: payload)
+    // This is a hook for decryption.
+    // Right now it only parses the string. In subclasses, it'll parse the
+    // string, decrypt the contents, and return the data as a JSON object.
+    public class func payloadFromPayloadString(payload: String) -> T {
+        return T(payload)
+    }
+
+    // TODO: consider using error tuples.
+    public class func fromEnvelope(envelope: EnvelopeJSON) -> Record<T>? {
+        if envelope.isValid() {
+            let payload = payloadFromPayloadString(envelope.payload)
+            if payload.isValid() {
+                return Record<T>(envelope: envelope, payload: payload)
+            } else {
+
+                println("Invalid payload \(payload.toString(pretty: true)).")
+            }
         } else {
-            self.init(id: "", collection: "", payload: T("{}"))
-            error = true
+
+            println("Invalid envelope.")
         }
+        return nil
+    }
+
+    /**
+     * Accepts an envelope and a decrypted payload.
+     * Inputs are not validated. Use `fromEnvelope` above.
+     */
+    convenience init(envelope: EnvelopeJSON, payload: T) {
+        // TODO: modified, sortindex, ttl
+        self.init(id: envelope.id, collection: envelope.collection, payload: payload)
     }
 
     init(id: String, collection: String, payload: T, modified: Int = time(nil), sortindex: Int = 0, ttl: Int = ONE_YEAR_IN_SECONDS) {
