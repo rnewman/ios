@@ -85,24 +85,37 @@ public class CleartextPayloadJSON : JSON {
     // This is a hook for decryption.
     // Right now it only parses the string. In subclasses, it'll parse the
     // string, decrypt the contents, and return the data as a JSON object.
-    public class func payloadFromPayloadString(payload: String) -> T {
+    // From the docs:
+    //
+    //   payload  none  string 256k
+    //   A string containing a JSON structure encapsulating the data of the record.
+    //   This structure is defined separately for each WBO type.
+    //   Parts of the structure may be encrypted, in which case the structure
+    //   should also specify a record for decryption.
+    //
+    // @seealso EncryptedRecord.
+    public class func payloadFromPayloadString(envelope: EnvelopeJSON, payload: String) -> T? {
         return T(payload)
     }
 
     // TODO: consider using error tuples.
     public class func fromEnvelope(envelope: EnvelopeJSON) -> Record<T>? {
-        if envelope.isValid() {
-            let payload = payloadFromPayloadString(envelope.payload)
-            if payload.isValid() {
-                return Record<T>(envelope: envelope, payload: payload)
-            } else {
-
-                println("Invalid payload \(payload.toString(pretty: true)).")
-            }
-        } else {
-
+        if !(envelope.isValid()) {
             println("Invalid envelope.")
+            return nil
         }
+
+        let payload = payloadFromPayloadString(envelope, payload: envelope.payload)
+        if (payload == nil) {
+            println("Unable to parse payload.")
+            return nil
+        }
+
+        if payload!.isValid() {
+            return Record<T>(envelope: envelope, payload: payload!)
+        }
+
+        println("Invalid payload \(payload!.toString(pretty: true)).")
         return nil
     }
 
