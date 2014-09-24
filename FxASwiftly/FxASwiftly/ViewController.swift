@@ -9,6 +9,13 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var myEmail: UITextField!
+    @IBOutlet weak var myPassword: UITextField!
+    @IBOutlet weak var myError: UILabel!
+
+    @IBAction func mySignIn(sender: AnyObject) {
+        myError.text = NSString(format: "%@, %@", myEmail.text, myPassword.text)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
