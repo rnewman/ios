@@ -20,7 +20,7 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>6A4B31B57E14E5921DD94BCBC053E4A99028AD01</key>
-		<string>../../../deps/swift-json/</string>
+		<string>../../../deps/swift-json</string>
 		<key>B830A549095F120F74F7813D6A38D6CAF1D972F6</key>
 		<string>../../..</string>
 	</dict>
