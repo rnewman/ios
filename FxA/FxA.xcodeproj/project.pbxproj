@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		286CCAF719D37B7F008B7374 /* FxASwiftly-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 286CCAF619D37B7F008B7374 /* FxASwiftly-Bridging-Header.h */; };
 		28F9520119D0F9FA00DCE892 /* FxA.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F9520019D0F9FA00DCE892 /* FxA.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28F9520B19D0F9FB00DCE892 /* FxATests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F9520A19D0F9FB00DCE892 /* FxATests.m */; };
 		28F9521619D0FB0D00DCE892 /* Foo.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F9521419D0FB0D00DCE892 /* Foo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -24,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		286CCAF619D37B7F008B7374 /* FxASwiftly-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FxASwiftly-Bridging-Header.h"; path = "../FxASwiftly/FxASwiftly/FxASwiftly-Bridging-Header.h"; sourceTree = "<group>"; };
 		28F951FB19D0F9FA00DCE892 /* FxA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FxA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F951FF19D0F9FA00DCE892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F9520019D0F9FA00DCE892 /* FxA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FxA.h; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 		28F951F119D0F9FA00DCE892 = {
 			isa = PBXGroup;
 			children = (
+				286CCAF619D37B7F008B7374 /* FxASwiftly-Bridging-Header.h */,
 				28F951FD19D0F9FA00DCE892 /* FxA */,
 				28F9520719D0F9FB00DCE892 /* FxATests */,
 				28F951FC19D0F9FA00DCE892 /* Products */,
@@ -115,6 +118,7 @@
 			files = (
 				28F9520119D0F9FA00DCE892 /* FxA.h in Headers */,
 				28F9521619D0FB0D00DCE892 /* Foo.h in Headers */,
+				286CCAF719D37B7F008B7374 /* FxASwiftly-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -50,6 +50,7 @@
 		286CCAF019D25CC8008B7374 /* json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = json.swift; path = "../../deps/swift-json/json.swift"; sourceTree = "<group>"; };
 		286CCAF219D25EF1008B7374 /* ClientPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientPayload.swift; sourceTree = "<group>"; };
 		286CCAF419D34055008B7374 /* EncryptedRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptedRecord.swift; sourceTree = "<group>"; };
+		286CCAF819D37C57008B7374 /* FxASwiftly-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FxASwiftly-Bridging-Header.h"; path = "FxASwiftly/FxASwiftly-Bridging-Header.h"; sourceTree = "<group>"; };
 		28F952FC19D1055B00DCE892 /* FxASwiftly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FxASwiftly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F9530019D1055B00DCE892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F9530119D1055B00DCE892 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 		28F952F319D1055B00DCE892 = {
 			isa = PBXGroup;
 			children = (
+				286CCAF819D37C57008B7374 /* FxASwiftly-Bridging-Header.h */,
 				28F9532119D1057200DCE892 /* FxA.framework */,
 				28F952FE19D1055B00DCE892 /* FxASwiftly */,
 				28F9531419D1055B00DCE892 /* FxASwiftlyTests */,
@@ -337,6 +339,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "FxASwiftly/FxASwiftly-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -373,6 +376,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "FxASwiftly/FxASwiftly-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
