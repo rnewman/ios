@@ -58,8 +58,8 @@ class FxASwiftlyTests: XCTestCase {
 
         println(clientPayload)
         // Only payloads that parse as JSON are valid.
-        XCTAssertNil(Record<PayloadJSON>.fromEnvelope(EnvelopeJSON(invalidPayload)))
-        XCTAssertNotNil(Record<PayloadJSON>.fromEnvelope(EnvelopeJSON(emptyPayload)))
+        XCTAssertNil(Record<CleartextPayloadJSON>.fromEnvelope(EnvelopeJSON(invalidPayload)))
+        XCTAssertNotNil(Record<CleartextPayloadJSON>.fromEnvelope(EnvelopeJSON(emptyPayload)))
 
         // Only valid ClientPayloads are valid.
         XCTAssertNil(Record<ClientPayload>.fromEnvelope(EnvelopeJSON(invalidPayload)))

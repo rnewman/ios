@@ -5,7 +5,7 @@
 import Foundation
 
 
-@objc public class ClientPayload : PayloadJSON {
+@objc public class ClientPayload : CleartextPayloadJSON {
     override public func isValid() -> Bool {
         // We should also call super.isValid(), but that'll fail:
         // Global is external, but doesn't have external or weak linkage!
@@ -28,7 +28,7 @@ import Foundation
         return self["type"].asString!
     }
     
-    override public func equalPayloads(obj: PayloadJSON) -> Bool {
+    override public func equalPayloads(obj: CleartextPayloadJSON) -> Bool {
         if !(obj is ClientPayload) {
             return false;
         }

@@ -35,7 +35,7 @@ public class EnvelopeJSON : JSON {
     }
 }
 
-public class PayloadJSON : JSON {
+public class CleartextPayloadJSON : JSON {
     public init(_ jsonString: String) {
         super.init(JSON.parse(jsonString))
     }
@@ -59,7 +59,7 @@ public class PayloadJSON : JSON {
     }
 
     // Override me.
-    public func equalPayloads (obj: PayloadJSON) -> Bool {
+    public func equalPayloads (obj: CleartextPayloadJSON) -> Bool {
         return self.deleted == obj.deleted
     }
 }
@@ -73,7 +73,7 @@ public class PayloadJSON : JSON {
  *
  * Deletedness is a property of the payload.
  */
-@objc public class Record<T : PayloadJSON> {
+@objc public class Record<T : CleartextPayloadJSON> {
     let id: String
     let collection: String
     let payload: T
