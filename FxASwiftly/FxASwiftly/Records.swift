@@ -154,14 +154,4 @@ public class CleartextPayloadJSON : JSON {
                rec.modified == self.modified &&
                equalPayloads(rec)
     }
-
-    public class func generateGUID() -> String {
-        let data = NSMutableData(length: 9)
-        let bytes = UnsafeMutablePointer<UInt8>(data.mutableBytes)
-        let result: Int32 = SecRandomCopyBytes(kSecRandomDefault, 9, bytes)
-
-        assert(result == 0, "Random byte generation failed.");
-
-        return data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
-    }
 }

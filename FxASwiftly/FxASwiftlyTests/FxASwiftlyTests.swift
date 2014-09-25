@@ -4,7 +4,7 @@ import FxASwiftly
 
 class FxASwiftlyTests: XCTestCase {
     func testGUIDs() {
-        let s = Record.generateGUID()
+        let s = Bytes.generateGUID()
         println("Got GUID: \(s)")
         XCTAssertEqual(12, s.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
     }

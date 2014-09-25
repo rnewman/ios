@@ -12,6 +12,7 @@
 		286CCAF319D25EF1008B7374 /* ClientPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286CCAF219D25EF1008B7374 /* ClientPayload.swift */; };
 		286CCAF519D34055008B7374 /* EncryptedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286CCAF419D34055008B7374 /* EncryptedRecord.swift */; };
 		286CCAFA19D39C3C008B7374 /* CryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286CCAF919D39C3C008B7374 /* CryptoTests.swift */; };
+		286CCAFD19D4D544008B7374 /* Bytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286CCAFC19D4D544008B7374 /* Bytes.swift */; };
 		28F9530219D1055B00DCE892 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F9530119D1055B00DCE892 /* AppDelegate.swift */; };
 		28F9530419D1055B00DCE892 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F9530319D1055B00DCE892 /* ViewController.swift */; };
 		28F9530719D1055B00DCE892 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F9530519D1055B00DCE892 /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 		286CCAF419D34055008B7374 /* EncryptedRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptedRecord.swift; sourceTree = "<group>"; };
 		286CCAF819D37C57008B7374 /* FxASwiftly-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FxASwiftly-Bridging-Header.h"; path = "FxASwiftly/FxASwiftly-Bridging-Header.h"; sourceTree = "<group>"; };
 		286CCAF919D39C3C008B7374 /* CryptoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
+		286CCAFC19D4D544008B7374 /* Bytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bytes.swift; sourceTree = "<group>"; };
 		28F952FC19D1055B00DCE892 /* FxASwiftly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FxASwiftly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F9530019D1055B00DCE892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F9530119D1055B00DCE892 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,14 @@
 			name = Sync;
 			sourceTree = "<group>";
 		};
+		286CCAFB19D4D531008B7374 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				286CCAFC19D4D544008B7374 /* Bytes.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		28F952F319D1055B00DCE892 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +128,7 @@
 		28F952FE19D1055B00DCE892 /* FxASwiftly */ = {
 			isa = PBXGroup;
 			children = (
+				286CCAFB19D4D531008B7374 /* Utils */,
 				286CCAF019D25CC8008B7374 /* json.swift */,
 				28F9530119D1055B00DCE892 /* AppDelegate.swift */,
 				28F9530319D1055B00DCE892 /* ViewController.swift */,
@@ -263,6 +274,7 @@
 				28F9530219D1055B00DCE892 /* AppDelegate.swift in Sources */,
 				286CCAF319D25EF1008B7374 /* ClientPayload.swift in Sources */,
 				286CCAF119D25CC8008B7374 /* json.swift in Sources */,
+				286CCAFD19D4D544008B7374 /* Bytes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
