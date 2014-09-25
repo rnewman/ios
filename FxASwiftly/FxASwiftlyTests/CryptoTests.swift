@@ -29,7 +29,7 @@ class CryptoTests: XCTestCase {
         // HMAC is computed against the Base64 ciphertext.
         let ciphertextRaw: NSData = dataFromBase64(ciphertextB64)
         XCTAssertNotNil(ciphertextRaw)
-        XCTAssertEqual(hmacB16, keyBundle.hmac(ciphertextRaw))
+        XCTAssertEqual(hmacB16, keyBundle.hmacString(ciphertextRaw))
     }
 
     func decodeBase64(b64: String) -> NSData {

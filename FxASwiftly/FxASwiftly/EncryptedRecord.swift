@@ -13,21 +13,33 @@ public class KeyBundle {
         self.hmacKey = hmacKey
     }
 
-    /**
-     * Returns a hex string for the HMAC.
-     */
-    public func hmac(ciphertext: NSData) -> String {
+    private func _hmac(ciphertext: NSData) -> (data: UnsafeMutablePointer<CUnsignedChar>, len: Int) {
         let hmacAlgorithm = CCHmacAlgorithm(kCCHmacAlgSHA256)
         let digestLen: Int = Int(CC_SHA256_DIGEST_LENGTH)
         let result = UnsafeMutablePointer<CUnsignedChar>.alloc(digestLen)
         CCHmac(hmacAlgorithm, hmacKey.bytes, UInt(hmacKey.length), ciphertext.bytes, UInt(ciphertext.length), result)
+        return (result, digestLen)
+    }
+
+    public func hmac(ciphertext: NSData) -> NSData {
+        let (result, digestLen) = _hmac(ciphertext)
+        var data = NSMutableData(bytes: result, length: digestLen)
+
+        result.destroy()
+        return data
+    }
+
+    /**
+     * Returns a hex string for the HMAC.
+     */
+    public func hmacString(ciphertext: NSData) -> String {
+        let (result, digestLen) = _hmac(ciphertext)
         var hash = NSMutableString()
         for i in 0..<digestLen {
             hash.appendFormat("%02x", result[i])
         }
 
         result.destroy()
-
         return String(hash)
     }
 
@@ -84,8 +96,8 @@ public class KeyBundle {
         return (success, result, copied)
     }
 
-    public func verify(hmac: NSData, iv: NSData) -> Bool {
-        return true
+    public func verify(#hmac: NSData, ciphertext: NSData) -> Bool {
+        return hmac.isEqualToData(self.hmac(ciphertext))
     }
 }
 
@@ -150,7 +162,7 @@ public class EncryptedJSON : JSON {
         }
 
         validated = true
-        valid = isValid() && keyBundle.verify(self.hmac, iv: self.iv)
+        valid = isValid() && keyBundle.verify(hmac: self.hmac, ciphertext: self.ciphertext)
         return valid
     }
 
