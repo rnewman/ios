@@ -27,24 +27,55 @@ class CryptoTests: XCTestCase {
     func testHMAC() {
         let keyBundle = KeyBundle(encKey: encKey, hmacKey: hmacKey)
         // HMAC is computed against the Base64 ciphertext.
-        let ciphertextRaw: NSData = (ciphertextB64.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: false))!
+        let ciphertextRaw: NSData = dataFromBase64(ciphertextB64)
         XCTAssertNotNil(ciphertextRaw)
         XCTAssertEqual(hmacB16, keyBundle.hmac(ciphertextRaw))
     }
 
-    func fromBase64(b64: String) -> NSData {
+    func decodeBase64(b64: String) -> NSData {
         return NSData(base64EncodedString: b64,
                       options: NSDataBase64DecodingOptions.allZeros)
+    }
+
+    func dataFromBase64(b64: String) -> NSData {
+        return ciphertextB64.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: false)!
     }
 
     func testDecrypt() {
         let keyBundle = KeyBundle(encKey: encKey, hmacKey: hmacKey)
         // Decryption is done against raw bytes.
-        let ciphertext = fromBase64(ciphertextB64)
-        let iv = fromBase64(ivB64)
+        let ciphertext = decodeBase64(ciphertextB64)
+        let iv = decodeBase64(ivB64)
         let s = keyBundle.decrypt(ciphertext, iv: iv)
-        let cleartext = NSString(data: fromBase64(cleartextB64),
+        let cleartext = NSString(data: decodeBase64(cleartextB64),
                                  encoding: NSUTF8StringEncoding)
         XCTAssertTrue(cleartext.isEqualToString(s!))
+    }
+
+    func testEncrypt() {
+        let keyBundle = KeyBundle(encKey: encKey, hmacKey: hmacKey)
+        let cleartext = decodeBase64(cleartextB64)
+
+        // With specified IV.
+        let iv = decodeBase64(ivB64)
+        if let (b, ivOut) = keyBundle.encrypt(cleartext, iv: iv) {
+            // The output IV should be the input.
+            XCTAssertEqual(ivOut, iv)
+            XCTAssertEqual(b, decodeBase64(ciphertextB64))
+        } else {
+            XCTFail("Encrypt failed.")
+        }
+
+        // With a random IV.
+        if let (b, ivOut) = keyBundle.encrypt(cleartext) {
+            // The output IV should be different.
+            // TODO: check that it's not empty!
+            XCTAssertNotEqual(ivOut, iv)
+
+            // The result will not match the ciphertext for which a different IV was used.
+            XCTAssertNotEqual(b, decodeBase64(ciphertextB64))
+        } else {
+            XCTFail("Encrypt failed.")
+        }
     }
 }
