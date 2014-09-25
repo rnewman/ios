@@ -31,17 +31,19 @@ class CryptoTests: XCTestCase {
         XCTAssertNotNil(ciphertextRaw)
         XCTAssertEqual(hmacB16, keyBundle.hmac(ciphertextRaw))
     }
-    
+
+    func fromBase64(b64: String) -> NSData {
+        return NSData(base64EncodedString: b64,
+                      options: NSDataBase64DecodingOptions.allZeros)
+    }
+
     func testDecrypt() {
         let keyBundle = KeyBundle(encKey: encKey, hmacKey: hmacKey)
         // Decryption is done against raw bytes.
-        let ciphertext = NSData(base64EncodedString: ciphertextB64,
-                                options: NSDataBase64DecodingOptions.allZeros)
-        let iv = NSData(base64EncodedString: ivB64,
-                        options: NSDataBase64DecodingOptions.allZeros)
+        let ciphertext = fromBase64(ciphertextB64)
+        let iv = fromBase64(ivB64)
         let s = keyBundle.decrypt(ciphertext, iv: iv)
-        let cleartext = NSString(data: NSData(base64EncodedString: cleartextB64,
-                                              options: NSDataBase64DecodingOptions.allZeros),
+        let cleartext = NSString(data: fromBase64(cleartextB64),
                                  encoding: NSUTF8StringEncoding)
         XCTAssertTrue(cleartext.isEqualToString(s!))
     }
