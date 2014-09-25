@@ -13,6 +13,9 @@ public class KeyBundle {
         self.hmacKey = hmacKey
     }
 
+    /**
+     * Returns a hex string for the HMAC.
+     */
     public func hmac(ciphertext: NSData) -> String {
         let hmacAlgorithm = CCHmacAlgorithm(kCCHmacAlgSHA256)
         let digestLen: Int = Int(CC_SHA256_DIGEST_LENGTH)
@@ -28,37 +31,57 @@ public class KeyBundle {
         return String(hash)
     }
 
-    // You *must* verify HMAC before calling this.
-    public func decrypt(ciphertext: NSData, iv: NSData) -> String? {
-        // Output will be no bigger than the ciphertext.
-        let result = UnsafeMutablePointer<CUnsignedChar>.alloc(ciphertext.length)
-        var copied: UInt = 0
+    public func encrypt(cleartext: NSData, iv: NSData?=nil) -> (ciphertext: NSData, iv: NSData)? {
+        let iv = iv ?? Bytes.generateRandomBytes(16)
 
-        let success: CCCryptorStatus =
-        CCCrypt(CCOperation(kCCDecrypt),
-                CCHmacAlgorithm(kCCAlgorithmAES128),
-                CCOptions(kCCOptionPKCS7Padding),
-                encKey.bytes,
-            UInt(kCCKeySizeAES256),
-            iv.bytes,
-            ciphertext.bytes,
-            UInt(ciphertext.length),
-            result,
-            UInt(ciphertext.length),
-            &copied
-        );
-
+        let (success, b, copied) = self.crypt(cleartext, iv: iv, op: CCOperation(kCCEncrypt))
         if success == CCCryptorStatus(kCCSuccess) {
             // Hooray!
-            let b = UnsafeMutablePointer<Void>(result)
+            let d = NSData(bytes: b, length: Int(copied))
+            b.destroy()
+            return (d, iv)
+        }
+
+        b.destroy()
+        return nil
+    }
+
+    // You *must* verify HMAC before calling this.
+    public func decrypt(ciphertext: NSData, iv: NSData) -> String? {
+        let (success, b, copied) = self.crypt(ciphertext, iv: iv, op: CCOperation(kCCDecrypt))
+        if success == CCCryptorStatus(kCCSuccess) {
+            // Hooray!
             let d = NSData(bytesNoCopy: b, length: Int(copied))
             let s = NSString(data: d, encoding: NSUTF8StringEncoding)
-            result.destroy()
+            b.destroy()
             return s
         }
 
-        result.destroy()
+        b.destroy()
         return nil
+    }
+
+
+    private func crypt(input: NSData, iv: NSData, op: CCOperation) -> (status: CCCryptorStatus, buffer: UnsafeMutablePointer<CUnsignedChar>, count: UInt) {
+        let resultSize = input.length + kCCBlockSizeAES128
+        let result = UnsafeMutablePointer<CUnsignedChar>.alloc(resultSize)
+        var copied: UInt = 0
+
+        let success: CCCryptorStatus =
+        CCCrypt(op,
+                CCHmacAlgorithm(kCCAlgorithmAES128),
+                CCOptions(kCCOptionPKCS7Padding),
+                encKey.bytes,
+                UInt(kCCKeySizeAES256),
+                iv.bytes,
+                input.bytes,
+                UInt(input.length),
+                result,
+                UInt(resultSize),
+                &copied
+        );
+
+        return (success, result, copied)
     }
 
     public func verify(hmac: NSData, iv: NSData) -> Bool {
