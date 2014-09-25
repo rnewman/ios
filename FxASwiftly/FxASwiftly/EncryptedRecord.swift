@@ -30,8 +30,35 @@ public class KeyBundle {
 
     // You *must* verify HMAC before calling this.
     public func decrypt(ciphertext: NSData, iv: NSData) -> String? {
-        return "{\"decrypted\": true}"
+        // Output will be no bigger than the ciphertext.
+        let result = UnsafeMutablePointer<CUnsignedChar>.alloc(ciphertext.length)
+        var copied: UInt = 0
 
+        let success: CCCryptorStatus =
+        CCCrypt(CCOperation(kCCDecrypt),
+                CCHmacAlgorithm(kCCAlgorithmAES128),
+                CCOptions(kCCOptionPKCS7Padding),
+                encKey.bytes,
+            UInt(kCCKeySizeAES256),
+            iv.bytes,
+            ciphertext.bytes,
+            UInt(ciphertext.length),
+            result,
+            UInt(ciphertext.length),
+            &copied
+        );
+
+        if success == CCCryptorStatus(kCCSuccess) {
+            // Hooray!
+            let b = UnsafeMutablePointer<Void>(result)
+            let d = NSData(bytesNoCopy: b, length: Int(copied))
+            let s = NSString(data: d, encoding: NSUTF8StringEncoding)
+            result.destroy()
+            return s
+        }
+
+        result.destroy()
+        return nil
     }
 
     public func verify(hmac: NSData, iv: NSData) -> Bool {
