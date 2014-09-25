@@ -1,3 +1,6 @@
 [submodule "deps/swift-json"]
 	path = deps/swift-json
 	url = https://github.com/dankogai/swift-json.git
+[submodule "Alamofire"]
+	path = Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
