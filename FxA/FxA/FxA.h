@@ -15,3 +15,7 @@ FOUNDATION_EXPORT double FxAVersionNumber;
 FOUNDATION_EXPORT const unsigned char FxAVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <FxA/PublicHeader.h>
+
+#include <FxA/DSAKeyPair.h>
+#include <FxA/RSAKeyPair.h>
+#include <FxA/MockMyIDTokenFactory.h>
