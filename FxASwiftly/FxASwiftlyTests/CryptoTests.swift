@@ -33,7 +33,7 @@ class CryptoTests: XCTestCase {
     }
 
     func dataFromBase64(b64: String) -> NSData {
-        return ciphertextB64.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: false)!
+        return Bytes.dataFromBase64(b64)!
     }
 
     func testDecrypt() {

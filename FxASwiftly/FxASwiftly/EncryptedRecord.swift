@@ -103,9 +103,9 @@ public class KeyBundle {
         return (success, result, copied)
     }
 
-    public func verify(#hmac: NSData, ciphertext: NSData) -> Bool {
+    public func verify(#hmac: NSData, ciphertextB64: NSData) -> Bool {
         let expectedHMAC = hmac
-        let computedHMAC = self.hmac(ciphertext)
+        let computedHMAC = self.hmac(ciphertextB64)
         let same = expectedHMAC.isEqualToData(computedHMAC)
         return same
     }
@@ -176,12 +176,20 @@ public class EncryptedJSON : JSON {
             return valid
         }
 
-        validated = true
         valid = self["ciphertext"].isString &&
                 self["hmac"].isString &&
-                self["IV"].isString &&
-                keyBundle.verify(hmac: self.hmac, ciphertext: self.ciphertext)
-        return valid
+                self["IV"].isString
+        if (!valid) {
+            validated = true
+            return false
+        }
+
+        validated = true
+        if let ciphertextForHMAC = self.ciphertextB64 {
+            return keyBundle.verify(hmac: self.hmac, ciphertextB64: ciphertextForHMAC)
+        } else {
+            return false
+        }
     }
 
     public func isValid() -> Bool {
@@ -193,6 +201,14 @@ public class EncryptedJSON : JSON {
         let b = Bytes.decodeBase64(str)
         println("Base64 \(str) yielded \(b)")
         return b
+    }
+
+    var ciphertextB64: NSData? {
+        if let ct = self["ciphertext"].asString {
+            return Bytes.dataFromBase64(ct)
+        } else {
+            return nil
+        }
     }
 
     var ciphertext: NSData {
@@ -218,7 +234,7 @@ public class EncryptedJSON : JSON {
             return _ivBytes!
         }
             
-        _ivBytes = fromBase64(self["iv"].asString!)
+        _ivBytes = fromBase64(self["IV"].asString!)
         return _ivBytes!
     }
 

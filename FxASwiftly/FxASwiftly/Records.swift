@@ -27,11 +27,27 @@ public class EnvelopeJSON : JSON {
     }
     
     public var collection: String {
-        return self["collection"].asString!
+        return self["collection"].asString ?? ""
     }
     
     public var payload: String {
         return self["payload"].asString!
+    }
+    
+    public var sortindex: Int {
+        return self["sortindex"].asInt ?? 0
+    }
+
+    public var modified: UInt64 {
+        if (self["modified"].isInt) {
+            return UInt64(self["modified"].asInt!) * 1000
+        }
+
+        if (self["modified"].isDouble) {
+            return UInt64(1000 * (self["modified"].asDouble? ?? 0.0))
+        }
+
+        return 0
     }
 }
 
@@ -75,10 +91,9 @@ public class CleartextPayloadJSON : JSON {
  */
 @objc public class Record<T : CleartextPayloadJSON> {
     public let id: String
-    public let collection: String
     public let payload: T
 
-    public let modified: Int
+    public let modified: UInt64
     public let sortindex: Int
     public let ttl: Int              // Seconds.
 
@@ -125,12 +140,11 @@ public class CleartextPayloadJSON : JSON {
      */
     convenience init(envelope: EnvelopeJSON, payload: T) {
         // TODO: modified, sortindex, ttl
-        self.init(id: envelope.id, collection: envelope.collection, payload: payload)
+        self.init(id: envelope.id, payload: payload, modified: envelope.modified, sortindex: envelope.sortindex)
     }
 
-    init(id: String, collection: String, payload: T, modified: Int = time(nil), sortindex: Int = 0, ttl: Int = ONE_YEAR_IN_SECONDS) {
+    init(id: String, payload: T, modified: UInt64 = UInt64(time(nil)), sortindex: Int = 0, ttl: Int = ONE_YEAR_IN_SECONDS) {
         self.id = id
-        self.collection = collection
 
         self.payload = payload;
 
@@ -140,8 +154,7 @@ public class CleartextPayloadJSON : JSON {
     }
     
     func equalIdentifiers(rec: Record) -> Bool {
-        return rec.collection == self.collection &&
-               rec.id == self.id
+        return rec.id == self.id
     }
     
     // Override me.

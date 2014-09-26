@@ -25,6 +25,14 @@ public class Bytes {
         return NSData(base64EncodedString: b64,
                       options: NSDataBase64DecodingOptions.allZeros)
     }
+
+    /**
+     * Turn a string of base64 characters into an NSData *without decoding*.
+     * This is to allow HMAC to be computed of the raw base64 string.
+     */
+    public class func dataFromBase64(b64: String) -> NSData? {
+        return b64.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: false)
+    }
     
     func fromHex(str: String) -> NSData {
        // TODO
