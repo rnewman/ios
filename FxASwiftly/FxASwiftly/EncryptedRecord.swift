@@ -8,6 +8,11 @@ public class KeyBundle {
     let encKey: NSData;
     let hmacKey: NSData;
 
+    public init(encKeyB64: String, hmacKeyB64: String) {
+        self.encKey = Bytes.decodeBase64(encKeyB64)
+        self.hmacKey = Bytes.decodeBase64(hmacKeyB64)
+    }
+
     public init(encKey: NSData, hmacKey: NSData) {
         self.encKey = encKey
         self.hmacKey = hmacKey
@@ -99,6 +104,22 @@ public class KeyBundle {
     public func verify(#hmac: NSData, ciphertext: NSData) -> Bool {
         return hmac.isEqualToData(self.hmac(ciphertext))
     }
+
+    public func factory<T : CleartextPayloadJSON>() -> (String) -> T? {
+        return { (payload: String) -> T? in
+            let potential = EncryptedJSON(json: payload, keyBundle: self)
+            if !(potential.isValid()) {
+                return nil
+            }
+
+            let cleartext = potential.cleartext
+            if (cleartext == nil) {
+                return nil
+            }
+            return T(cleartext!)
+        }
+    }
+
 }
 
 public class Keys {
@@ -113,18 +134,7 @@ public class Keys {
 
     public func factory<T : CleartextPayloadJSON>(collection: String) -> (String) -> T? {
         let bundle = forCollection(collection)
-        return { (payload: String) -> T? in
-            let potential = EncryptedJSON(json: payload, keyBundle: bundle)
-            if !(potential.isValid()) {
-                return nil
-            }
-
-            let cleartext = potential.cleartext
-            if (cleartext == nil) {
-                return nil
-            }
-            return T(cleartext!)
-        }
+        return bundle.factory()
     }
 }
 

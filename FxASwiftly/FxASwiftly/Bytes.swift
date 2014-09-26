@@ -20,4 +20,9 @@ public class Bytes {
     public class func generateGUID() -> String {
         return generateRandomBytes(9).base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
     }
+
+    public class func decodeBase64(b64: String) -> NSData {
+        return NSData(base64EncodedString: b64,
+                      options: NSDataBase64DecodingOptions.allZeros)
+    }
 }

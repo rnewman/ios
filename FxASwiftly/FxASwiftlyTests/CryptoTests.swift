@@ -6,8 +6,8 @@ class CryptoTests: XCTestCase {
     let hmacB16 = "b1e6c18ac30deb70236bc0d65a46f7a4dce3b8b0e02cf92182b914e3afa5eebc"
     let ivB64 = "GX8L37AAb2FZJMzIoXlX8w=="
 
-    let hmacKey = NSData(base64EncodedString: "MMntEfutgLTc8FlTLQFms8/xMPmCldqPlq/QQXEjx70=", options: NSDataBase64DecodingOptions.allZeros)
-    let encKey = NSData(base64EncodedString: "9K/wLdXdw+nrTtXo4ZpECyHFNr4d7aYHqeg3KW9+m6Q=", options: NSDataBase64DecodingOptions.allZeros)
+    let hmacKey = Bytes.decodeBase64("MMntEfutgLTc8FlTLQFms8/xMPmCldqPlq/QQXEjx70=")
+    let encKey = Bytes.decodeBase64("9K/wLdXdw+nrTtXo4ZpECyHFNr4d7aYHqeg3KW9+m6Q=")
 
     
     let ciphertextB64 = "NMsdnRulLwQsVcwxKW9XwaUe7ouJk5Wn80QhbD80l0HEcZGCynh45qIbeYBik0lgcHbKmlIxTJNwU+OeqipN+/j7MqhjKOGIlvbpiPQQLC6/ffF2vbzL0nzMUuSyvaQzyGGkSYM2xUFt06aNivoQTvU2GgGmUK6MvadoY38hhW2LCMkoZcNfgCqJ26lO1O0sEO6zHsk3IVz6vsKiJ2Hq6VCo7hu123wNegmujHWQSGyf8JeudZjKzfi0OFRRvvm4QAKyBWf0MgrW1F8SFDnVfkq8amCB7NhdwhgLWbN+21NitNwWYknoEWe1m6hmGZDgDT32uxzWxCV8QqqrpH/ZggViEr9uMgoy4lYaWqP7G5WKvvechc62aqnsNEYhH26A5QgzmlNyvB+KPFvPsYzxDnSCjOoRSLx7GG86wT59QZw="
@@ -32,11 +32,6 @@ class CryptoTests: XCTestCase {
         XCTAssertEqual(hmacB16, keyBundle.hmacString(ciphertextRaw))
     }
 
-    func decodeBase64(b64: String) -> NSData {
-        return NSData(base64EncodedString: b64,
-                      options: NSDataBase64DecodingOptions.allZeros)
-    }
-
     func dataFromBase64(b64: String) -> NSData {
         return ciphertextB64.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: false)!
     }
@@ -44,24 +39,24 @@ class CryptoTests: XCTestCase {
     func testDecrypt() {
         let keyBundle = KeyBundle(encKey: encKey, hmacKey: hmacKey)
         // Decryption is done against raw bytes.
-        let ciphertext = decodeBase64(ciphertextB64)
-        let iv = decodeBase64(ivB64)
+        let ciphertext = Bytes.decodeBase64(ciphertextB64)
+        let iv = Bytes.decodeBase64(ivB64)
         let s = keyBundle.decrypt(ciphertext, iv: iv)
-        let cleartext = NSString(data: decodeBase64(cleartextB64),
+        let cleartext = NSString(data: Bytes.decodeBase64(cleartextB64),
                                  encoding: NSUTF8StringEncoding)
         XCTAssertTrue(cleartext.isEqualToString(s!))
     }
 
     func testEncrypt() {
         let keyBundle = KeyBundle(encKey: encKey, hmacKey: hmacKey)
-        let cleartext = decodeBase64(cleartextB64)
+        let cleartext = Bytes.decodeBase64(cleartextB64)
 
         // With specified IV.
-        let iv = decodeBase64(ivB64)
+        let iv = Bytes.decodeBase64(ivB64)
         if let (b, ivOut) = keyBundle.encrypt(cleartext, iv: iv) {
             // The output IV should be the input.
             XCTAssertEqual(ivOut, iv)
-            XCTAssertEqual(b, decodeBase64(ciphertextB64))
+            XCTAssertEqual(b, Bytes.decodeBase64(ciphertextB64))
         } else {
             XCTFail("Encrypt failed.")
         }
@@ -73,7 +68,7 @@ class CryptoTests: XCTestCase {
             XCTAssertNotEqual(ivOut, iv)
 
             // The result will not match the ciphertext for which a different IV was used.
-            XCTAssertNotEqual(b, decodeBase64(ciphertextB64))
+            XCTAssertNotEqual(b, Bytes.decodeBase64(ciphertextB64))
         } else {
             XCTFail("Encrypt failed.")
         }
