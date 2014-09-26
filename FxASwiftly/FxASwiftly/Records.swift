@@ -18,7 +18,7 @@ public class EnvelopeJSON : JSON {
     public func isValid() -> Bool {
         return !isError &&
                self["id"].isString &&
-               self["collection"].isString &&
+               //self["collection"].isString &&
                self["payload"].isString
     }
 
@@ -74,13 +74,13 @@ public class CleartextPayloadJSON : JSON {
  * Deletedness is a property of the payload.
  */
 @objc public class Record<T : CleartextPayloadJSON> {
-    let id: String
-    let collection: String
-    let payload: T
+    public let id: String
+    public let collection: String
+    public let payload: T
 
-    let modified: Int
-    let sortindex: Int
-    let ttl: Int              // Seconds.
+    public let modified: Int
+    public let sortindex: Int
+    public let ttl: Int              // Seconds.
 
     // This is a hook for decryption.
     // Right now it only parses the string. In subclasses, it'll parse the

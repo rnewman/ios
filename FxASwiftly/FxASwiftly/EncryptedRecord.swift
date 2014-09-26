@@ -102,16 +102,19 @@ public class KeyBundle {
     }
 
     public func verify(#hmac: NSData, ciphertext: NSData) -> Bool {
-        return hmac.isEqualToData(self.hmac(ciphertext))
+        let expectedHMAC = hmac
+        let computedHMAC = self.hmac(ciphertext)
+        let same = expectedHMAC.isEqualToData(computedHMAC)
+        return same
     }
-
+    
     public func factory<T : CleartextPayloadJSON>() -> (String) -> T? {
         return { (payload: String) -> T? in
             let potential = EncryptedJSON(json: payload, keyBundle: self)
             if !(potential.isValid()) {
                 return nil
             }
-
+            
             let cleartext = potential.cleartext
             if (cleartext == nil) {
                 return nil
@@ -119,7 +122,7 @@ public class KeyBundle {
             return T(cleartext!)
         }
     }
-
+    
 }
 
 public class Keys {
@@ -172,20 +175,20 @@ public class EncryptedJSON : JSON {
         }
 
         validated = true
-        valid = isValid() && keyBundle.verify(hmac: self.hmac, ciphertext: self.ciphertext)
+        valid = self["ciphertext"].isString &&
+                self["hmac"].isString &&
+                self["IV"].isString &&
+                keyBundle.verify(hmac: self.hmac, ciphertext: self.ciphertext)
         return valid
     }
 
     public func isValid() -> Bool {
         return !isError &&
-               self["ciphertext"].isString &&
-               self["hmac"].isString &&
-               self["IV"].isString &&
                self.validate()
     }
 
     func fromBase64(str: String) -> NSData {
-        let b = NSData(base64EncodedString: str, options: NSDataBase64DecodingOptions.allZeros)
+        let b = Bytes.decodeBase64(str)
         println("Base64 \(str) yielded \(b)")
         return b
     }
