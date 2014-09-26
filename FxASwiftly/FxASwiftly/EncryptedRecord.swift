@@ -4,6 +4,8 @@
 
 import Foundation
 
+import FxA
+
 public class KeyBundle {
     let encKey: NSData;
     let hmacKey: NSData;
@@ -207,7 +209,7 @@ public class EncryptedJSON : JSON {
             return _hmacBytes!
         }
             
-        _hmacBytes = fromBase64(self["hmac"].asString!)
+        _hmacBytes = NSData(base16EncodedString: self["hmac"].asString!, options: NSDataBase16DecodingOptions.Default)
         return _hmacBytes!
     }
 
