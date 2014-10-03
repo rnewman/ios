@@ -5,7 +5,7 @@
 import Foundation
 import Alamofire
 
-public let DEFAULT_TOKEN_SERVER_ENDPOINT = "https://token.services.mozilla.com/1.0/sync/1.5";
+public let PROD_TOKEN_SERVER_ENDPOINT = "https://token.services.mozilla.com/1.0/sync/1.5";
 public let STAGE_TOKEN_SERVER_ENDPOINT = "https://token.stage.mozaws.net/1.0/sync/1.5";
 
 public let TokenServerClientErrorDomain = "org.mozilla.token.error"
@@ -24,11 +24,6 @@ public class TokenServerToken {
     }
 }
 
-public protocol TokenServerClientDelegate {
-    func onSuccess(result: TokenServerToken);
-    func onError(error: NSError);
-}
-
 public class TokenServerClient {
     public class var requestManager : Alamofire.Manager {
         struct Static {
@@ -41,7 +36,7 @@ public class TokenServerClient {
     public let url : String
 
     public init(endpoint: String? = nil) {
-        self.url = endpoint ?? DEFAULT_TOKEN_SERVER_ENDPOINT
+        self.url = endpoint ?? PROD_TOKEN_SERVER_ENDPOINT
     }
 
     public class func getAudienceForEndpoint(endpoint: String) -> String {
