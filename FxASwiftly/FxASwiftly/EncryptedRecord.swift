@@ -136,13 +136,20 @@ public func == (lhs: KeyBundle, rhs: KeyBundle) -> Bool {
 }
 
 public class Keys {
-    public init() {
-        
+    let defaultBundle: KeyBundle
+    var collectionKeys: [String: KeyBundle] = [String: KeyBundle]()
+
+    public init(defaultBundle: KeyBundle) {
+        self.defaultBundle = defaultBundle
     }
 
-    // TODO
+    // TODO: initialize from a record.
+
     public func forCollection(collection: String) -> KeyBundle {
-        return KeyBundle(encKey: NSData(), hmacKey: NSData())
+        if let bundle = collectionKeys[collection] {
+            return bundle
+        }
+        return defaultBundle
     }
 
     public func factory<T : CleartextPayloadJSON>(collection: String) -> (String) -> T? {

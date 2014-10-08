@@ -37,8 +37,8 @@ class FxASwiftlyTests: XCTestCase {
             (s: String) -> ClientPayload? in
             return ClientPayload(s)
         }
-        
-        let ciphertextClientsFactory: (String) -> ClientPayload? = Keys().factory("clients")
+
+        let ciphertextClientsFactory: (String) -> ClientPayload? = Keys(defaultBundle: KeyBundle.random()).factory("clients")
 
         let clearFactory: (String) -> CleartextPayloadJSON? = {
             (s: String) -> CleartextPayloadJSON? in
@@ -76,7 +76,5 @@ class FxASwiftlyTests: XCTestCase {
         } else {
             XCTFail("No record.")
         }
-        
-        
     }
 }
