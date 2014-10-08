@@ -130,9 +130,9 @@
 		286CCAEF19D247DA008B7374 /* Sync */ = {
 			isa = PBXGroup;
 			children = (
-				286CCAF219D25EF1008B7374 /* ClientPayload.swift */,
 				286CCAED19D23B81008B7374 /* Records.swift */,
 				286CCAF419D34055008B7374 /* EncryptedRecord.swift */,
+				286CCAF219D25EF1008B7374 /* ClientPayload.swift */,
 				28AB70DF19E4B3B5001C5FBB /* KeysPayload.swift */,
 			);
 			name = Sync;
