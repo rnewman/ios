@@ -140,14 +140,32 @@ public func == (lhs: KeyBundle, rhs: KeyBundle) -> Bool {
 }
 
 public class Keys {
+    let valid: Bool
     let defaultBundle: KeyBundle
     var collectionKeys: [String: KeyBundle] = [String: KeyBundle]()
 
     public init(defaultBundle: KeyBundle) {
         self.defaultBundle = defaultBundle
+        self.valid = true
     }
 
-    // TODO: initialize from a record.
+    public init(downloaded: EnvelopeJSON, master: KeyBundle) {
+        let keysRecord = Record<KeysPayload>.fromEnvelope(downloaded, payloadFactory: master.factory())
+        if let payload: KeysPayload = keysRecord?.payload {
+            if payload.isValid() && payload.defaultKeys != nil {
+                self.defaultBundle = payload.defaultKeys!
+                self.valid = true
+                return
+            }
+
+            self.defaultBundle = KeyBundle.invalid
+            self.valid = false
+            return
+        }
+
+        self.defaultBundle = KeyBundle.invalid
+        self.valid = true
+    }
 
     public func forCollection(collection: String) -> KeyBundle {
         if let bundle = collectionKeys[collection] {
