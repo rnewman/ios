@@ -24,6 +24,10 @@
 		28F9532919D1085500DCE892 /* FxA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28F9532119D1057200DCE892 /* FxA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2FA1802A19D3D98A00F3D844 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA1802719D3D97800F3D844 /* Alamofire.framework */; };
 		2FA1802C19D3D9D700F3D844 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA1802719D3D97800F3D844 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2FAAEC9319DF45BF002E3683 /* FxAClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAAEC9219DF45BF002E3683 /* FxAClientTests.swift */; };
+		2FE5B90119D4F34F00C55C0B /* TokenServerClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5B90019D4F34F00C55C0B /* TokenServerClientTests.swift */; };
+		2FE5B90619D4FA6800C55C0B /* FxAClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5B90519D4FA6800C55C0B /* FxAClient.swift */; };
+		2FF824CE19D3C2F9003ED08E /* TokenServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF824CD19D3C2F9003ED08E /* TokenServerClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +100,10 @@
 		28F9531719D1055B00DCE892 /* FxASwiftlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FxASwiftlyTests.swift; sourceTree = "<group>"; };
 		28F9532119D1057200DCE892 /* FxA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FxA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FA1802119D3D97800F3D844 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		2FAAEC9219DF45BF002E3683 /* FxAClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FxAClientTests.swift; sourceTree = "<group>"; };
+		2FE5B90019D4F34F00C55C0B /* TokenServerClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenServerClientTests.swift; sourceTree = "<group>"; };
+		2FE5B90519D4FA6800C55C0B /* FxAClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FxAClient.swift; sourceTree = "<group>"; };
+		2FF824CD19D3C2F9003ED08E /* TokenServerClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenServerClient.swift; sourceTree = "<group>"; };
 		2FF8264E19D3CBA3003ED08E /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,7 +171,9 @@
 		28F952FE19D1055B00DCE892 /* FxASwiftly */ = {
 			isa = PBXGroup;
 			children = (
+				2FE5B90419D4FA5300C55C0B /* FxA */,
 				286CCAFB19D4D531008B7374 /* Utils */,
+				2FF824CC19D3C2CD003ED08E /* TokenServer */,
 				286CCAF019D25CC8008B7374 /* json.swift */,
 				28F9530119D1055B00DCE892 /* AppDelegate.swift */,
 				28F9530319D1055B00DCE892 /* ViewController.swift */,
@@ -190,6 +200,8 @@
 				28F9531719D1055B00DCE892 /* FxASwiftlyTests.swift */,
 				28F9531519D1055B00DCE892 /* Supporting Files */,
 				286CCAF919D39C3C008B7374 /* CryptoTests.swift */,
+				2FE5B90019D4F34F00C55C0B /* TokenServerClientTests.swift */,
+				2FAAEC9219DF45BF002E3683 /* FxAClientTests.swift */,
 			);
 			path = FxASwiftlyTests;
 			sourceTree = "<group>";
@@ -209,6 +221,22 @@
 				2FA1802919D3D97800F3D844 /* AlamofireTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2FE5B90419D4FA5300C55C0B /* FxA */ = {
+			isa = PBXGroup;
+			children = (
+				2FE5B90519D4FA6800C55C0B /* FxAClient.swift */,
+			);
+			name = FxA;
+			sourceTree = "<group>";
+		};
+		2FF824CC19D3C2CD003ED08E /* TokenServer */ = {
+			isa = PBXGroup;
+			children = (
+				2FF824CD19D3C2F9003ED08E /* TokenServerClient.swift */,
+			);
+			name = TokenServer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,6 +370,8 @@
 				28F9530419D1055B00DCE892 /* ViewController.swift in Sources */,
 				28F9530219D1055B00DCE892 /* AppDelegate.swift in Sources */,
 				286CCAF319D25EF1008B7374 /* ClientPayload.swift in Sources */,
+				2FF824CE19D3C2F9003ED08E /* TokenServerClient.swift in Sources */,
+				2FE5B90619D4FA6800C55C0B /* FxAClient.swift in Sources */,
 				286CCAF119D25CC8008B7374 /* json.swift in Sources */,
 				286CCAFD19D4D544008B7374 /* Bytes.swift in Sources */,
 			);
@@ -351,6 +381,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FAAEC9319DF45BF002E3683 /* FxAClientTests.swift in Sources */,
+				2FE5B90119D4F34F00C55C0B /* TokenServerClientTests.swift in Sources */,
 				286CCAFA19D39C3C008B7374 /* CryptoTests.swift in Sources */,
 				28F9531819D1055B00DCE892 /* FxASwiftlyTests.swift in Sources */,
 			);

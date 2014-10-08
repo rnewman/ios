@@ -21,3 +21,4 @@ FOUNDATION_EXPORT const unsigned char FxAVersionString[];
 #include <FxA/MockMyIDTokenFactory.h>
 #include <FxA/NSData+Base16.h>
 #include <FxA/NSData+Base32.h>
+#include <FxA/NSData+KeyDerivation.h>
