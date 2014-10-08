@@ -15,6 +15,10 @@ public class KeyBundle : Equatable {
         return KeyBundle(encKey: Bytes.generateRandomBytes(32), hmacKey: Bytes.generateRandomBytes(32))
     }
 
+    public class var invalid: KeyBundle {
+        return KeyBundle(encKeyB64: "deadbeef", hmacKeyB64: "deadbeef")
+    }
+
     public init(encKeyB64: String, hmacKeyB64: String) {
         self.encKey = Bytes.decodeBase64(encKeyB64)
         self.hmacKey = Bytes.decodeBase64(hmacKeyB64)
