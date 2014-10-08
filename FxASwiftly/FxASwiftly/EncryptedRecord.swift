@@ -6,9 +6,14 @@ import Foundation
 
 import FxA
 
-public class KeyBundle {
+public class KeyBundle : Equatable {
     let encKey: NSData;
     let hmacKey: NSData;
+
+    public class func random() -> KeyBundle {
+        // TODO: ensure seeded random.
+        return KeyBundle(encKey: Bytes.generateRandomBytes(32), hmacKey: Bytes.generateRandomBytes(32))
+    }
 
     public init(encKeyB64: String, hmacKeyB64: String) {
         self.encKey = Bytes.decodeBase64(encKeyB64)
@@ -106,8 +111,7 @@ public class KeyBundle {
     public func verify(#hmac: NSData, ciphertextB64: NSData) -> Bool {
         let expectedHMAC = hmac
         let computedHMAC = self.hmac(ciphertextB64)
-        let same = expectedHMAC.isEqualToData(computedHMAC)
-        return same
+        return expectedHMAC.isEqualToData(computedHMAC)
     }
     
     public func factory<T : CleartextPayloadJSON>() -> (String) -> T? {
@@ -124,7 +128,11 @@ public class KeyBundle {
             return T(cleartext!)
         }
     }
-    
+}
+
+public func == (lhs: KeyBundle, rhs: KeyBundle) -> Bool {
+    return lhs.encKey.isEqualToData(rhs.encKey) &&
+           lhs.hmacKey.isEqualToData(rhs.hmacKey)
 }
 
 public class Keys {
